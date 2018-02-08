@@ -163,14 +163,6 @@ var searchQuery = {
     });
     return data.body;
   },
-  type: function (data) {
-    data.body.query.bool.must.push({
-      terms: {
-        [Constants.RECORD_MODEL_TYPE_FIELD]: data.types
-      }
-    });
-    return data.body;
-  },
   people: function (data) {     
     // it is better in index time to index first_name + last_name to full_name fieels, and then use regular match query
     //https://www.elastic.co/blog/multi-field-search-just-got-better
@@ -377,16 +369,16 @@ var searchResultsQuery = exports.searchResultsQuery = function (value, query, _b
    
       if (data.exceptIds) data.body = searchQuery['exceptIds'](data);
       if (data.lat && data.lon)
-        data.body = searchQuery['GPS'](data);
+       data.body = searchQuery['GPS'](data);
       else if(data.onlyCategoriesFilter) data.body = searchQuery['score'](data);
       if (data.ids) data.body = searchQuery['ids'](data);
 
       else {
         if (data.values && data.values.length) data.body = searchQuery[data.type](data);
-        data.body = searchQuery['phone'](data);
-        data.body = searchQuery['is_deleted'](data);
+         data.body = searchQuery['phone'](data);
+         data.body = searchQuery['is_deleted'](data);
         for (var index in query)
-          if (searchQuery[index]) data.body = searchQuery[index](data);
+          if (searchQuery[index])data.body = searchQuery[index](data);
       }
       search.categories = (categories) ? categories.reverse() : [];
       search.body = body;
@@ -476,11 +468,12 @@ module.exports.getSubCategories = function (req, res) {
         filters: {}
       };
       categoriesCtrl.getAllParents(req.query.routing, [], function (err, _categories) {
-        for (var index in config.hierarchyFilters) {
-          if (_categories.indexOf(config.hierarchyFilters[index].content) > -1)
-            data.filters[index] = true;
-          else data.filters[index] = false;
-        }
+        if (!err)
+         for (var index in config.hierarchyFilters) {
+           if (_categories.indexOf(config.hierarchyFilters[index].content) > -1)
+             data.filters[index] = true;
+           else data.filters[index] = false;
+         }
         res.send(data);
       });
     }

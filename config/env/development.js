@@ -1,9 +1,8 @@
 'use strict';
-
 module.exports = {
-  db: 'mongodb://' + (process.env.DB_PORT_27017_TCP_ADDR || 'localhost') + '/402-dev',
-  dbName: '402-dev',
-  host: 'https://dev.402.co.il',
+  db: 'mongodb://' + (process.env.DB_PORT_27017_TCP_ADDR || 'localhost') + '/reindex-dev',
+  dbName: 'reindex-dev',
+  host: 'https://localhost:3005',
   google: {
     client_id: 'client_id',
     client_secret: 'client_secret',
@@ -14,14 +13,13 @@ module.exports = {
     port: 9200
   },
   records: {
-    index: 'records',
-    type: 'record'
+    index: 'reindex-records',
   },
   hierarchyCategories: {
-    index: 'cat1'
+    index: 'reindex-categories'
   },
   categories: {
-    index: '402autocomplete'
+    index: 'reindex-cities'
   },
   history: {
     index: 'history',
@@ -30,15 +28,15 @@ module.exports = {
   rabbitmq: {
     host: 'localhost'
   },
-  tokenSecret: '402newstart402',
+  tokenSecret: 'reindex',
   recaptcha: {
     secret: '6LfNoRsUAAAAAG3VGlDXwEq0PS_ia5_TLPWUbPBQ'
   },
   email: {
     service: 'gmail',
     auth: {
-      user: 'hamadrichharedi@gmail.com',
-      pass: 'hamadrichharedi402'
+      user: '',
+      pass: ''
     }
   },
   hierarchyFilters: {
@@ -47,29 +45,9 @@ module.exports = {
     }
   },
   paycall: {
-    uname: 'shlemut2',
-    uid: '981',
-    pass: '123456'
-  },
-  messereser: {
-    userName: '5350500@gmail.com',
-    password: 'madrich5326',
-    ppl:{
-      userId: '4848',
-      contactListName: 'רשימת 402 אנשים'
-    },
-    bis: {
-      userId: '4848',
-      contactListName: 'רשימת 402 עסקים'
-    },
-    updatebis: {
-      userId: '4848',
-      contactListName: 'מעדכני עסקים 402'
-    },
-    updateppl: {
-      userId: '4848',
-      contactListName: 'מעדכני אנשים 402'
-    }
+    uname: '',
+    uid: '',
+    pass: ''
   },
   testLeads: true,
   gepCoderOptions: {
@@ -80,6 +58,4 @@ module.exports = {
     apiKey: 'AIzaSyBF-KtjsMQHJZ5xGIwLtpmvzsFzspafwtE', // for Mapquest, OpenCage, Google Premier
     formatter: null         // 'gpx', 'string', ...
   },
-  headersCSV : ['business_name', 'first_name', 'last_name', 'business_description', 'address_street_name', 'address_street_number', 'address_street_entrance', 'address_neighborhood', 'address_additional_info', 'address_city', 'phone', 'phone_2', 'email', 'website', 'listing_type_1', 'tags', 'categories_str']
-
 };
