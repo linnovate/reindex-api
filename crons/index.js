@@ -10,7 +10,7 @@ exports.producer = function(req, res) {
         subtype: req.params.subtype,
         params: req.query
     };
-    _producer.createJob('crons-402', data);
+    _producer.createJob('crons-reindex', data);
     res.send('OK');
 };
 

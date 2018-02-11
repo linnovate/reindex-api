@@ -1,5 +1,5 @@
 var mongoose = require('mongoose');
-mongoose.connect('mongodb://' + (process.env.DB_PORT_27017_TCP_ADDR || 'localhost') + '/402-dev');
+mongoose.connect('mongodb://' + (process.env.DB_PORT_27017_TCP_ADDR || 'localhost') + '/reindex-dev');
 
 require('../models/newrecord');
 

@@ -171,7 +171,7 @@ module.exports = {
                             last: i + currLimit == recordsCount
                           };
                           console.log('REINDEX CREATE SEARCH MONGO JOB ', params.collection, data.offset, data.limit);
-                          producer.createJob('reindex-402', data);
+                          producer.createJob('reindex-data', data);
                         };
                         emitter.on('finishReindex', function () {
                           console.log('in emit')

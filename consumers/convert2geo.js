@@ -11,9 +11,9 @@ var NodeGeocoder = require('node-geocoder');
 var options = config.gepCoderOptions;
 
 var geocoder = NodeGeocoder(options);
-require('../models/record');
+require('../models/newrecord');
 
-var Record = mongoose.model('Record');
+var Record = mongoose.model('NewRecord');
 
 
 module.exports = function (rabbit, qData) {
@@ -72,7 +72,6 @@ function handleMessage(message, error, done) {
 function find(options, callback) {
     mongoose.connection.db.collection(options.collection, function (err, collection) {
         collection.find({
-            '$or': [{ listing_type_1: 2 }, { listing_type_1: 3 }],
             "address_city":
                 { $exists: true }
         }).skip(options.offset).limit(options.limit).toArray(callback);

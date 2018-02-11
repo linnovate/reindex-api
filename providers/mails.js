@@ -16,7 +16,7 @@ exports.send = function (from, to, subject, text) {
 
   // setup email data with unicode symbols
   let mailOptions = {
-    from: `"402" <${from}>`, // sender address
+    from: `"reindex" <${from}>`, // sender address
     to: to.toString(), // list of receivers
     subject: subject, // Subject line
     text: text, // plain text body

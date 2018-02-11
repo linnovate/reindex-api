@@ -4,19 +4,19 @@ var config = require('../config'),
   rabbit = require('replay-rabbitmq');
 
 var queues = [{
-  name: 'crons-402',
+  name: 'crons-reindex',
   requires: ['../consumers/crons'],
   maxUnackMessages: 1
 }, {
-  name: 'reindex-402',
+  name: 'reindex-data',
   requires: ['../consumers/reindex'],
   maxUnackMessages: 1
 }, {
-  name: 'unset-route-402',
+  name: 'unset-route-reindex',
   requires: ['../consumers/unset-route'],
   maxUnackMessages: 10
 }, {
-  name: 'create-sitemap-file-402',
+  name: 'create-sitemap-file-reindex',
   requires: ['../consumers/sitemap'],
   maxUnackMessages: 1
 }, {

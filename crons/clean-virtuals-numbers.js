@@ -54,7 +54,7 @@ function findMongo(data) {
 function unsetRoutes(data) {
   return new Promise(function (resolve, reject) {
     data.results.forEach(function (res) {
-      producer.createJob('unset-route-402', res);
+      producer.createJob('unset-route-reindex', res);
     });
     resolve(data);
   });

@@ -49,6 +49,7 @@ module.exports = {
     uid: '',
     pass: ''
   },
+  tokenSecret: 'reindextoken',
   testLeads: true,
   gepCoderOptions: {
     provider: 'google',

@@ -30,7 +30,7 @@ module.exports = function(message, error, done) {
                     type: message.params.type
                 };
                 console.log('REINDEX CREATE SEARCH MONGO JOB ', message.params.collection, data.offset, data.limit);
-                producer.createJob('reindex-402', data);
+                producer.createJob('reindex-data', data);
             };
             (done || Function)();
         });

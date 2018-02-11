@@ -70,7 +70,7 @@ function produceRecords(options) {
             subType: options.subType,
           };
           console.log('SITEMAP CREATE SEARCH MONGO JOB ', data.offset, data.limit);
-          producer.createJob('create-sitemap-file-402', data);
+          producer.createJob('create-sitemap-file-data', data);
         };
         return resolve(options);
       });
@@ -96,7 +96,7 @@ function produceCategories(options) {
           pageNum: options.pageNum,
         };
         console.log('SITEMAP CREATE SEARCH ELASTIC JOB ', categoriesIndex, data.offset, data.limit);
-        producer.createJob('create-sitemap-file-402', data);
+        producer.createJob('create-sitemap-file-data', data);
       };
       return resolve(count);
     }).catch(function (err) {

@@ -19,7 +19,7 @@ init() ;
 
 function init() {
 	client.search({
-	  index: '402test1',
+	  index: 'reindextest1',
 	  type: 'heb1',
 	  size: '2000',
 	  body: {
