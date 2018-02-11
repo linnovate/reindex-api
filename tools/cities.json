@@ -1,0 +1,33 @@
+{
+    "_index" : "reindex-cities",
+    "_type" : "cities",
+    "_id" : "2",
+    "_score" : 1.0,
+    "_source" : {
+      "content" : "BROOKLYN"
+    }
+  }, {
+    "_index" : "reindex-cities",
+    "_type" : "cities",
+    "_id" : "4",
+    "_score" : 1.0,
+    "_source" : {
+      "content" : "YONKERS"
+    }
+  }, {
+    "_index" : "reindex-cities",
+    "_type" : "cities",
+    "_id" : "1",
+    "_score" : 1.0,
+    "_source" : {
+      "content" : "CORONA"
+    }
+  }, {
+    "_index" : "reindex-cities",
+    "_type" : "cities",
+    "_id" : "3",
+    "_score" : 1.0,
+    "_source" : {
+      "content" : "FRESH MEADOWS"
+    }
+  }

@@ -1,0 +1,21 @@
+{"_index" : "reindex-categories",
+      "_type" : "A",
+      "_id" : "AWFv7kZWSS-FmPbWiZPq",
+      "_score" : 1.0,
+      "_routing" : "Z:Z1",
+      "_parent" : "Z:Z1",
+      "_source" : {
+        "content" : "Electronics Store"
+      }
+    }, {
+      "_index" : "reindex-categories",
+      "_type" : "A",
+      "_id" : "AWF0t5SYNvpP2PTzllrZ",
+      "_score" : 1.0,
+      "_routing" : "Z:Z1",
+      "_parent" : "Z:Z1",
+      "_source" : {
+        "content" : "Home Improvement Salesperson"
+      }
+    } 
+
