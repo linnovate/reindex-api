@@ -1,20 +1,6 @@
- {
-    "index": {
-        "_index": "reindex-cities",
-        "_type": "cities",
-        "_id": "1"
-    }
-}
-{
-    "content": "BROOKLYN"
-}
-{
-    "index": {
-        "_index": "reindex-cities",
-        "_type": "cities",
-        "_id": "2"
-    }
-}
-{
-    "content": "CORONA"
-}
+{ "index" : { "_index" : "reindex-cities", "_type" : "cities", "_id" : "1" } }
+{ "content" : "BROOKLYN" }
+{ "index" : { "_index" : "reindex-cities", "_type" : "cities", "_id" : "2" } }
+{ "content" : "CORONA" }
+{ "index" : { "_index" : "reindex-cities", "_type" : "cities", "_id" : "3" } }
+{ "content" : "FRESH MEADOWS" }
