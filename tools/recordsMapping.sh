@@ -2,7 +2,6 @@ curl -XPUT localhost:9200/reindex-records -d '{
   "mappings": {
     "record": {
       "dynamic_templates": [{
-      }, {
         "phone": {
           "match": "phone*",
           "mapping": {
