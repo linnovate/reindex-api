@@ -25,7 +25,7 @@ curl -XPUT localhost:9200/reindex-records -d '{
           "fields": {
             "raw": {
               "type": "string",
-              "index": "not_analyzed",
+              "index": "not_analyzed"
             },
             "plain": {
               "type": "string",
