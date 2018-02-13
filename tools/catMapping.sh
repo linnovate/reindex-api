@@ -10,15 +10,10 @@ curl -XPUT localhost:9200/reindex-categories -d ' {
                     "match_mapping_type": "string",
                     "mapping": {
                         "type": "string",
-                        "analyzer": "hebrew",
                         "fields": {
                             "raw": {
                                 "type": "string",
                                 "index": "not_analyzed"
-                            },
-                            "he": {
-                                "type": "string",
-                                "analyzer": "hebrew"
                             },
                             "ac": {
                                 "type": "string",
@@ -40,7 +35,6 @@ curl -XPUT localhost:9200/reindex-categories -d ' {
                     "match_mapping_type": "string",
                     "mapping": {
                         "type": "string",
-                        "analyzer": "hebrew",
                         "_parent": {
                             "type": "A"
                         },
@@ -48,10 +42,6 @@ curl -XPUT localhost:9200/reindex-categories -d ' {
                             "raw": {
                                 "type": "string",
                                 "index": "not_analyzed"
-                            },
-                            "he": {
-                                "type": "string",
-                                "analyzer": "hebrew"
                             },
                             "ac": {
                                 "type": "string",
@@ -73,7 +63,6 @@ curl -XPUT localhost:9200/reindex-categories -d ' {
                     "match_mapping_type": "string",
                     "mapping": {
                         "type": "string",
-                        "analyzer": "hebrew",
                         "_parent": {
                             "type": "B"
                         },
@@ -81,10 +70,6 @@ curl -XPUT localhost:9200/reindex-categories -d ' {
                             "raw": {
                                 "type": "string",
                                 "index": "not_analyzed"
-                            },
-                            "he": {
-                                "type": "string",
-                                "analyzer": "hebrew"
                             },
                             "ac": {
                                 "type": "string",
@@ -106,7 +91,6 @@ curl -XPUT localhost:9200/reindex-categories -d ' {
                     "match_mapping_type": "string",
                     "mapping": {
                         "type": "string",
-                        "analyzer": "hebrew",
                         "_parent": {
                             "type": "C"
                         },
@@ -114,10 +98,6 @@ curl -XPUT localhost:9200/reindex-categories -d ' {
                             "raw": {
                                 "type": "string",
                                 "index": "not_analyzed"
-                            },
-                            "he": {
-                                "type": "string",
-                                "analyzer": "hebrew"
                             },
                             "ac": {
                                 "type": "string",
