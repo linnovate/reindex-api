@@ -47,7 +47,7 @@ curl -XPUT localhost:9200/reindex-records -d '{
               "analyzer": "remove_geresh"
             },
             "raw": {
-              "type": "string",
+              "type": "string"
             },
             "notanalyzed": {
               "type": "string",
@@ -63,7 +63,7 @@ curl -XPUT localhost:9200/reindex-records -d '{
               "analyzer": "remove_geresh"
             },
             "raw": {
-              "type": "string",
+              "type": "string"
             }
           }
         },
@@ -74,7 +74,7 @@ curl -XPUT localhost:9200/reindex-records -d '{
           "type": "string",
           "fields": {
            "raw": {
-              "type": "string",
+              "type": "string"
             },
             "notanalyzed": {
               "type": "string",
@@ -104,7 +104,7 @@ curl -XPUT localhost:9200/reindex-records -d '{
           "type": "string",
           "fields": {
             "raw": {
-              "type": "string",
+              "type": "string"
             },
             "notanalyzed": {
               "type": "string",
