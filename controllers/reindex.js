@@ -107,7 +107,6 @@ function findElastic(actionKeys, data, find, objFind) {
         ['tags.raw']: {
           query: objFind.cat,
           operator: 'and',
-          analyzer: 'hebrew_exact',
         }
       }
     });

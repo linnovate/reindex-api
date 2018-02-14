@@ -175,7 +175,6 @@ var searchQuery = {
       match: {
         full_name: {
           query: data.valuesString.replace(/[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]/gi, ''),
-          //analyzer: 'hebrew'
         }
       }
     });
@@ -203,7 +202,6 @@ var searchQuery = {
         ['tags.raw']: {
           query: data.valuesString,
           operator: 'and',
-          analyzer: 'hebrew_exact',
         }
       }
     });
@@ -233,7 +231,6 @@ var searchQuery = {
           ['business_name.raw']: {
             query: data.valuesString,
             operator: 'and',
-            analyzer: 'hebrew',
             //fuzziness: '1' // with it - nofesh gives nefesh
           }
         }
