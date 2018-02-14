@@ -191,9 +191,10 @@ var searchQuery = {
   businesses: function (data) {
     data.body.query.bool.should.push({
       match: {
-        ['tags.plain']: {
-          query: data.valuesString.replace(/['"]/gi, ''),
-          operator: 'and'
+        ['categories']: {
+          query: data.valuesString,
+          operator: 'and',
+          //fuzziness: '1' // with it - nofesh gives nefesh
         }
       }
     });
@@ -228,7 +229,7 @@ var searchQuery = {
       });
       data.body.query.bool.should.push({
         match: {
-          ['business_name.raw']: {
+          ['business_name']: {
             query: data.valuesString,
             operator: 'and',
             //fuzziness: '1' // with it - nofesh gives nefesh
@@ -244,7 +245,7 @@ var searchQuery = {
     data.values.forEach(function (v) {
       categoriesBool.bool.must.push({
         term: {
-          ['categories.raw']: v
+          ['categories']: v
         }
       });
     });
@@ -364,13 +365,12 @@ var searchResultsQuery = exports.searchResultsQuery = function (value, query, _b
       data.lon = _body.lon;
       data.onlyCategoriesFilter = _body.onlyCategoriesFilter;
    
-      if (data.exceptIds) data.body = searchQuery['exceptIds'](data);
-      if (data.lat && data.lon)
-       data.body = searchQuery['GPS'](data);
-      else if(data.onlyCategoriesFilter) data.body = searchQuery['score'](data);
-      if (data.ids) data.body = searchQuery['ids'](data);
-
-      else {
+       if (data.exceptIds) data.body = searchQuery['exceptIds'](data);
+       if (data.lat && data.lon)
+        data.body = searchQuery['GPS'](data);
+       else if(data.onlyCategoriesFilter) data.body = searchQuery['score'](data);
+       if (data.ids) data.body = searchQuery['ids'](data);
+       else {
         if (data.values && data.values.length) data.body = searchQuery[data.type](data);
          data.body = searchQuery['phone'](data);
          data.body = searchQuery['is_deleted'](data);
