@@ -90,16 +90,16 @@ var searchQuery = {
   GPS: function (data) {
     var lat = data.lat;
     var lon = data.lon;
-    data.body.sort.push({
-      _script: {
-        type: 'number',
-        script: {
-          // inline: "if (_source.score) return _source['score'].value * Math.min(1 + (Math.random() * (1.01 - 1)), 1.01); else return 0;",
-          inline: "if (doc['score_value']) return doc['score_value'].value * Math.min(1 + (Math.random() * (1.01 - 1)), 1.01); else return 0;",
-        },
-        order: 'desc'
-      },
-    })
+    // data.body.sort.push({
+    //   _script: {
+    //     type: 'number',
+    //    script: {
+    //       // inline: "if (_source.score) return _source['score'].value * Math.min(1 + (Math.random() * (1.01 - 1)), 1.01); else return 0;",
+    //       inline: "if (doc['score_value']) return doc['score_value'].value * Math.min(1 + (Math.random() * (1.01 - 1)), 1.01); else return 0;",
+    //     },
+    //     order: 'desc'
+    //   },
+    // })
     data.body.sort.push({
       "_geo_distance": {
         "location": { 
@@ -131,16 +131,16 @@ var searchQuery = {
   score: function (data) {
     // data.body.track_scores = true;
     
-    data.body.sort.push({
-        _script: {
-          type: 'number',
-          script: {
-            // inline: "if (_source.score) return _source['score'].value * Math.min(1 + (Math.random() * (1.01 - 1)), 1.01); else return 0;",
-            inline: "if (doc['score_value']) return doc['score_value'].value * Math.min(1 + (Math.random() * (1.01 - 1)), 1.01); else return 0;",
-          },
-          order: 'desc'
-        },
-      })
+    // data.body.sort.push({
+    //     _script: {
+    //       type: 'number',
+    //       script: {
+    //         // inline: "if (_source.score) return _source['score'].value * Math.min(1 + (Math.random() * (1.01 - 1)), 1.01); else return 0;",
+    //         inline: "if (doc['score_value']) return doc['score_value'].value * Math.min(1 + (Math.random() * (1.01 - 1)), 1.01); else return 0;",
+    //       },
+    //       order: 'desc'
+    //     },
+    //   })
       data.body.sort.push({
           _score: {
             order: 'desc'
