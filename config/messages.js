@@ -15,11 +15,11 @@ module.exports = {
 		userNotAvailableToRemove: 'the user you are trying to remove does not exists in this group',
 		userAlreadyExist: 'user Already Exist',
 		cantRemoveYourself: 'cant Remove Yourself',
-		createRequest: 'הבקשה נכשלה :(',
-		mailFailed: 'השליחה נכשלה :('
+		createRequest: 'Request failed :(',
+		mailFailed: 'Send request failed :('
 	},
 	successes: {
-		createRequest: 'הבקשה נקלטה בהצלחה',
-		mailSent: 'המייל נשלח בהצלחה'
+		createRequest: 'Request received successfully',
+		mailSent: 'The email was sent successfully'
 	}
 };
