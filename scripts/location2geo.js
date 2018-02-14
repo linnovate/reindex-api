@@ -1,7 +1,7 @@
 var mongoose = require('mongoose');
 // var NodeGeocoder = require('node-geocoder');
 
-var promise = mongoose.connect('mongodb://' + (process.env.DB_PORT_27017_TCP_ADDR || 'localhost') + '/reindex-prod', {
+var promise = mongoose.connect('mongodb://' + (process.env.DB_PORT_27017_TCP_ADDR || '172.17.0.1') + '/reindex-prod', {
   useMongoClient: true,
 });
 

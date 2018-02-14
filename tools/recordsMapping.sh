@@ -2,15 +2,6 @@ curl -XPUT localhost:9200/reindex-records -d '{
   "mappings": {
     "record": {
       "dynamic_templates": [{
-        "he": {
-          "match": "*",
-          "match_mapping_type": "string",
-          "mapping": {
-            "type": "string",
-            "analyzer": "hebrew"
-          }
-        }
-      }, {
         "phone": {
           "match": "phone*",
           "mapping": {
@@ -34,8 +25,7 @@ curl -XPUT localhost:9200/reindex-records -d '{
           "fields": {
             "raw": {
               "type": "string",
-              "index": "not_analyzed",
-              "analyzer": "hebrew"
+              "index": "not_analyzed"
             },
             "plain": {
               "type": "string",
@@ -57,8 +47,7 @@ curl -XPUT localhost:9200/reindex-records -d '{
               "analyzer": "remove_geresh"
             },
             "raw": {
-              "type": "string",
-              "analyzer": "hebrew"
+              "type": "string"
             },
             "notanalyzed": {
               "type": "string",
@@ -74,8 +63,7 @@ curl -XPUT localhost:9200/reindex-records -d '{
               "analyzer": "remove_geresh"
             },
             "raw": {
-              "type": "string",
-              "analyzer": "hebrew"
+              "type": "string"
             }
           }
         },
@@ -86,8 +74,7 @@ curl -XPUT localhost:9200/reindex-records -d '{
           "type": "string",
           "fields": {
            "raw": {
-              "type": "string",
-              "analyzer": "hebrew"
+              "type": "string"
             },
             "notanalyzed": {
               "type": "string",
@@ -117,8 +104,7 @@ curl -XPUT localhost:9200/reindex-records -d '{
           "type": "string",
           "fields": {
             "raw": {
-              "type": "string",
-              "analyzer": "hebrew"
+              "type": "string"
             },
             "notanalyzed": {
               "type": "string",
