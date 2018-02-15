@@ -2,7 +2,7 @@
 
 var mongoose = require('mongoose');
 
-mongoose.createConnection('mongodb://' + (process.env.DB_PORT_27017_TCP_ADDR || 'localhost') + '/reindex-prod');
+mongoose.createConnection('mongodb://' + (process.env.DB_PORT_27017_TCP_ADDR || '172.17.0.1') + '/reindex-prod');
 
 var NodeGeocoder = require('node-geocoder');
 var producer = require('../producers');
@@ -14,7 +14,7 @@ var options = {
 
     // Optional depending on the providers
     httpAdapter: 'https', // Default
-    apiKey: 'AIzaSyBUbuvz7kDT9u2G1C98UV7BHxO-BCOJUUg', // for Mapquest, OpenCage, Google Premier
+    apiKey: 'AIzaSyD7XnBe82IfEqcZkbScrVfzHZvL8czP9v0', // for Mapquest, OpenCage, Google Premier
     formatter: null         // 'gpx', 'string', ...
 };
 

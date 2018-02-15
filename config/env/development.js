@@ -56,7 +56,7 @@ module.exports = {
 
     // Optional depending on the providers
     httpAdapter: 'https', // Default
-    apiKey: 'AIzaSyBF-KtjsMQHJZ5xGIwLtpmvzsFzspafwtE', // for Mapquest, OpenCage, Google Premier
+    apiKey: 'AIzaSyD7XnBe82IfEqcZkbScrVfzHZvL8czP9v0', // for Mapquest, OpenCage, Google Premier
     formatter: null         // 'gpx', 'string', ...
   },
 };
