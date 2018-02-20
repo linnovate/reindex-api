@@ -63,54 +63,61 @@ exports.register = function (req, res, next) {
       error: 'You must enter a password.'
     });
   }
-
-  User.findOne({
-    email
-  }, (err, existingUser) => {
+  User.count({},(err ,count) => {
     if (err) {
       return next(err);
     }
-
-    // If user is not unique, return error
-    if (existingUser) {
-      return res.status(422).send({
-        error: 'That email address is already in use.'
-      });
-    }
-
-    // If email is unique and password was provided, create account
-    const user = new User({
-      email,
-      password,
-      firstName,
-      lastName
-    });
-
-    user.save((err, user) => {
+    User.findOne({
+      email
+    }, (err, existingUser) => {
       if (err) {
         return next(err);
       }
+  
+      // If user is not unique, return error
+      if (existingUser) {
+        return res.status(422).send({
+          error: 'That email address is already in use.'
+        });
+      }
+  
+      // If email is unique and password was provided, create account
+      const user = new User({
+        email,
+        password,
+        firstName,
+        lastName
+      });
 
-      // Subscribe member to Mailchimp list
-      // mailchimp.subscribeToNewsletter(user.email);
-
-      // Respond with JWT if user was created
-
-      const userInfo = user.toObject();
-      generateToken(userInfo, function (err, token) {
+      if (count == 0)
+        user.role = "Admin";
+      user.save((err, user) => {
         if (err) {
-          console.log('generateToken err', err);
-          return res.status(500).json({
-            err: err.message
-          });
+          return next(err);
         }
-        res.status(200).json({
-          token: `JWT ${token}`,
-          user: userInfo
+  
+        // Subscribe member to Mailchimp list
+        // mailchimp.subscribeToNewsletter(user.email);
+  
+        // Respond with JWT if user was created
+  
+        const userInfo = user.toObject();
+        generateToken(userInfo, function (err, token) {
+          if (err) {
+            console.log('generateToken err', err);
+            return res.status(500).json({
+              err: err.message
+            });
+          }
+          res.status(200).json({
+            token: `JWT ${token}`,
+            user: userInfo
+          });
         });
       });
     });
-  });
+  })
+
 };
 
 //= =======================================
