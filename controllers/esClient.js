@@ -476,6 +476,23 @@ module.exports.getSubCategories = function (req, res) {
     }
   });
 
-};
+}
 
+module.exports.checkData = function (req, res) {
+  _client.search({
+    index: recordsIndex,
+    type: recordsType,
+    body: {
+       query: {
+           "match_all": {}
+       }
+    }
+  }, function (error, response) {
+  if (error)
+    return res.send(false);
+  if (!response.hits.hits.length)
+    res.send(false);
+  else res.send(true);
+  });
+}
 

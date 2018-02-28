@@ -28,24 +28,16 @@ var writer = csvWriter({ headers: config.headersCSV });
 var found = false;
 var findrr = false;
 var flagFindRR = false;
+var NodeGeocoder = require('node-geocoder');
 
+var options = config.gepCoderOptions;
+
+var geocoder = NodeGeocoder(options);
 
 
 var fileName;
 var dbName = config.dbName;
 
-function checkAndDelete(objFind, cb) {
-  reindex.test(true, objFind, function (bool) {
-    console.log('return from reindex - 1', bool)
-    if (bool) {
-      reindex.test(false, objFind, function (bool) {
-        console.log('return from reindex - 2', bool)
-          cb(true);
-      })
-    }
-    else cb(false);
-  })
-}
 
 
 
@@ -78,24 +70,25 @@ function writeToCsv(writer, record, flag) {
     })
   }
 }
-
+function convert(address) {
+  return new Promise(function (resolve, reject) {
+      geocoder.geocode({ address }, function (err, data) {
+          if (err) return reject(err);
+          if (data) {
+              var geo = data[0];
+              if (geo) {
+                  var location = [geo.longitude, geo.latitude];
+                  return resolve(location);
+              }
+              else reject('no data');
+          } else reject('no data');
+      });
+  });
+}
 
 module.exports = {
   upload: function (req, res, next) {
     var objFind;
-    var type = parseInt(req.query.type);
-    if (type === 1)
-      objFind = {
-        'listing_type_1': type,
-        'address_city': req.query.city
-      };
-    else
-      objFind = {
-        'listing_type_1': type,
-        '$or': [{ tags: { '$regex': ".*" + req.query.cat + ".*" } }, { categories: { '$in': [req.query.cat] } }],
-        'address_city': req.query.city,
-        'cat': req.query.cat
-      };
     var form = new formidable.IncomingForm();
     form.uploadDir = inputPath;
     form.parse(req, function (err, fields, files) { });
@@ -104,32 +97,12 @@ module.exports = {
       fs.rename(file.path, form.uploadDir + "/" + file.name);
     });
     form.on('end', function () {
-      const headers = config.headersCSV;
+      //const headers = config.headersCSV;
       fs.createReadStream(inputPath + '/' + fileName)
         .pipe(csv())
         .on('headers', function (headerList) {
           let flag = false, count = 0, arrLength;
-          arrLength = headers.length - 1;
-          headers.forEach(function (header) {
-            console.log(header, headerList.indexOf(header))
-            if (headerList.indexOf(header) <= -1) {
-              if (header === 'business_name') {
-                if (!headerList.indexOf('first_name') >= 0 && headerList.indexOf('last_name') >= 0)
-                  flag = true;
-              }
-              else if (header === 'first_name' || header === 'last_name') {
-                if (!headerList.indexOf('first_name') >= 0 && headerList.indexOf('last_name') >= 0 && headerList.indexOf('business_name') <= -1)
-                  flag = true;
-              }
-              else flag = true;
-            }
-          }, this);
-          if (flag)
-            res.status(500).send('headerline not valid');
-          else {
-            checkAndDelete(objFind, function (bool) {
               console.log('return to function')
-              if (bool) {
                 const mongoimportexecstring = "mongoimport -d " + config.dbName + " -c newrecords --type csv --file " + inputPath + '/' + fileName + " --headerline";
                 shell.exec(mongoimportexecstring);
                 console.log('---------------------')
@@ -141,10 +114,34 @@ module.exports = {
                       doc.categories = doc.categories_str.split('|');
                       doc.categories = doc.categories.map((r) => r.trim());
                       if (doc.categories[doc.categories.length - 1] === '') doc.categories.splice(doc.categories.length - 1, 1);
+                      // if (doc.address_city) {
+                      //   console.log('in if')
+                      //   var address = doc.address_city;
+                      //   if (doc.address_street_name)
+                      //       address += ' , ' + doc.address_street_name;
+                      //   if (doc.address_street_number)
+                      //       address += ' , ' + doc.address_street_number;
+                      //   convert(address).then(function (res) {
+                      //     console.log('rrrrrrrrrrrrrr',res)
+                      //      doc.location = res;
+                      //      var promise = doc.save();
+                      // promise.then(function (d) {
+                      //   console.log('saveeeeee')
+                      //   callback();
+                      // });
+                      //   }).catch(function (error) {
+                      //     console.log('eeeeeeeee',error)
+                      //       console.log('error', error)
+                      //   });
+                      // }
+                    //else
+                     {
                       var promise = doc.save();
                       promise.then(function (d) {
+                        console.log('saveeeeee')
                         callback();
                       });
+                    }    
                     }, function (err) {
                       if (err) return res.send(err);
                       const params = {
@@ -191,12 +188,10 @@ module.exports = {
                 })
 
                 res.send('records updated')
-              }
-              else res.send('cant update')
+             
 
-            });
 
-          }
+         // }
         });
 
     });

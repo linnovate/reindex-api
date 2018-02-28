@@ -28,6 +28,7 @@ router.get('/test', (req, res) => {
   res.send('ok');
 });
 
+router.get('/checkData',esClient.checkData);
 router.post('/getCategories', esClient.getDataByTerm, esClient.getSubCategories);
 router.get('/getSubCategories', function(req, res, next) {
   if (req.query.children && !req.query.routing) {
