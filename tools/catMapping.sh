@@ -1,4 +1,4 @@
-curl -XPUT localhost:9200/reindex-categories -d ' {
+curl -XPUT http://172.17.0.1:9200/reindex-categories -d ' {
     "mappings": {
         "A": {
              "_parent": {

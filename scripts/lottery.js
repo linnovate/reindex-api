@@ -10,7 +10,7 @@ var csvWriter = require('csv-write-stream'),
 require('../models/record-request');
 
 var mongoose = require('mongoose');
-mongoose.connect('mongodb://' + (process.env.DB_PORT_27017_TCP_ADDR || 'localhost') + '/reindex-prod');
+mongoose.connect('mongodb://' + (process.env.DB_PORT_27017_TCP_ADDR || 'http://172.17.0.1') + '/reindex-prod');
 
 
 writer.pipe(fs.createWriteStream(inputPath + '/lottery.csv'));

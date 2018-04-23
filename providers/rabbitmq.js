@@ -42,7 +42,7 @@ init();
 
 
 function connectRabbitMQ() {
-  var host = (config.rabbitmq && config.rabbitmq.host) ? config.rabbitmq.host : 'localhost';
+  var host = (config.rabbitmq && config.rabbitmq.host) ? config.rabbitmq.host : 'http://172.17.0.1';
   return rabbit.connect(host);
 }
 

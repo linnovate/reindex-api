@@ -1,7 +1,7 @@
 var mongoose = require('mongoose');
 // var NodeGeocoder = require('node-geocoder');
 
-var promise = mongoose.connect('mongodb://' + (process.env.DB_PORT_27017_TCP_ADDR || '172.17.0.1') + '/reindex-prod', {
+var promise = mongoose.connect('mongodb://' + (process.env.DB_PORT_27017_TCP_ADDR || 'http://172.17.0.1') + '/reindex-dev', {
   useMongoClient: true,
 });
 
@@ -21,7 +21,7 @@ function convert(address) {
 
 promise.then(function (db) {
   var i = 0;
-  db.collection('records').find({}).forEach(function (doc) {
+  db.collection('newrecords').find({}).forEach(function (doc) {
     i++;
     if (i > 40)
       return;

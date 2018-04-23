@@ -22,6 +22,8 @@ var NewRecordSchema = new Schema({
   address_neighborhood: String,
   address_city: String,
   location: Array,
+  latitude: String,
+  longitude: String,
   phone: String,
   phone_2: String,
   phone_3: String,

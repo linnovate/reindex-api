@@ -8,7 +8,7 @@ var client;
 
 module.exports = {
   connect: function (host, port) {
-    host = host || 'localhost';
+    host = host || 'http://172.17.0.1';
     port = port || 9200;
 
     var uri = host + ':' + port;

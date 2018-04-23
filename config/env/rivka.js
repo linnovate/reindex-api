@@ -1,6 +1,6 @@
 'use strict';
 module.exports = {
-  db: 'mongodb://' + (process.env.DB_PORT_27017_TCP_ADDR || 'localhost') + '/reindex-dev',
+  db: 'mongodb://' + (process.env.DB_PORT_27017_TCP_ADDR || 'http://172.17.0.1') + '/reindex-dev',
   dbName: 'reindex-dev',
   host: 'https://localhost:3005',
   google: {
@@ -9,7 +9,7 @@ module.exports = {
     redirect_uri: 'redirect_uri',
   },
   elastic: {
-    host: 'localhost',
+    host: 'http://172.17.0.1',
     port: 9200
   },
   records: {
@@ -27,7 +27,7 @@ module.exports = {
     type: 'search'
   },
   rabbitmq: {
-    host: 'localhost'
+    host: 'http://172.17.0.1'
   },
   tokenSecret: 'reindex',
   recaptcha: {

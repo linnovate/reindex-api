@@ -258,6 +258,8 @@ function update(data) {
       checkAddress(__record).then(function (res) {
         if (res !== 'err')
         __record.location = res;
+        __record.latitude  =  res[1]
+        __record.longitude =  res[0];
         __record.save(function (err, r) {
           if (err) return error(err);
           done(r);

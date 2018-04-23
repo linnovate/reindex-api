@@ -2,7 +2,7 @@
 
 var mongoose = require('mongoose');
 
-mongoose.createConnection('mongodb://' + (process.env.DB_PORT_27017_TCP_ADDR || '172.17.0.1') + '/reindex-prod');
+mongoose.createConnection('mongodb://' + (process.env.DB_PORT_27017_TCP_ADDR || 'http://172.17.0.1') + '/reindex-dev');
 
 var NodeGeocoder = require('node-geocoder');
 var producer = require('../producers');

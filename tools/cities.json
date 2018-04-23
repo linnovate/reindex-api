@@ -20,6 +20,6 @@
 }
 
 
-curl -XPOST localhost:9200/reindex-cities/cities/1 -d '{
+curl -XPOST http://172.17.0.1:9200/reindex-cities/cities/1 -d '{
     "content":"test"
 }'
