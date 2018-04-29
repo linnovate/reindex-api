@@ -1,3 +1,4 @@
+
 'use strict';
 
 var ElasticProvider = require('../providers/elastic'),
@@ -42,6 +43,14 @@ router.post('/getResults', function(req, res, next) {
   if (req.headers.authorization) return requireAuth(req, res, next);
   next();
 }, auth.checkRecaptcha, esClient.getDataResults);
+router.post('/getUsers', function(req, res, next) {
+  if (req.headers.authorization) return requireAuth(req, res, next);
+  next();
+},authCtrl.getUsers);
+router.put('/user/:id', function(req, res, next) {
+  if (req.headers.authorization) return requireAuth(req, res, next);
+  next();
+},  authCtrl.updateUser);
 
 /*
  Records functions

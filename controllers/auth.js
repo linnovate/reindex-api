@@ -263,3 +263,31 @@ exports.verifyToken = function (req, res, next) {
     });
   });
 };
+
+exports.getUsers = function (req, res, next) {
+  User.find({
+  }, (err, users) => {
+    if (err) {
+      return next(err);
+    }
+    else res.status(200).json({
+      users: users
+    });
+  });
+};
+
+exports.updateUser = function(req, res, next) {
+  let user = req.params.id;
+   User.findOneAndUpdate({
+  _id: user
+}, {
+  $set: {
+    role: 'Admin',
+  }
+}).exec(function (err, result) {
+  console.log('update user', err, result);
+  if(!err)
+    res.send('ok');
+  else res.send('failed');
+});
+}
