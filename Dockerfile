@@ -8,6 +8,6 @@ WORKDIR /usr/src/app
 COPY package.json /usr/src/app
 #RUN npm cache clean
 RUN npm install
-COPY . /usr/src/app
+#prod mode (not supported now)-> COPY . /usr/src/app
 EXPOSE 3005
 CMD ["node","bin/www"]
