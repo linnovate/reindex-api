@@ -1,4 +1,4 @@
-curl -XPUT http://172.17.0.1:9200/reindex-records -d '{
+curl -XPUT 172.17.0.1:9200/reindex-records -d '{
   "mappings": {
     "record": {
       "dynamic_templates": [{

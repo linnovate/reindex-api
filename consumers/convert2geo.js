@@ -43,9 +43,10 @@ function handleMessage(message, error, done) {
     find(message, function (err, docs) {
         if (err) return console.log('===== CONVERT DATA ERR ================', err);
         docs.forEach(function (doc) {
-            if (doc.address_city) {
-                var address = doc.address_city;
-                if (doc.address_street_name)
+            var address = '';
+            // if (doc.address_city) {
+            //     var address = doc.address_city;
+                if (doc.address_street_name){
                     address += ' , ' + doc.address_street_name;
                 if (doc.address_street_number)
                     address += ' , ' + doc.address_street_number;
@@ -72,8 +73,8 @@ function handleMessage(message, error, done) {
 function find(options, callback) {
     mongoose.connection.db.collection(options.collection, function (err, collection) {
         collection.find({
-            "address_city":
-                { $exists: true }
+            // "address_city":
+            //     { $exists: true }
         }).skip(options.offset).limit(options.limit).toArray(callback);
     });
 }

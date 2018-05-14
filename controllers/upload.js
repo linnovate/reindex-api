@@ -2,6 +2,16 @@
 require('../models/newrecord');
 require('../models/record');
 require('../models/record-request')
+//var mi = require('mongoimport');
+/*var config = {
+  fields: [],                     // {array} data to import
+  db: 'reindex-dev',                     // {string} name of db
+  collection: 'newrecords'  ,
+  host: '172.17.0.1:27017',        // {string} [optional] by default is 27017
+  username: 'sofish',             // {string} [optional]
+  password: '***'                 // {string} [optional]
+  callback: (err, db) => {}       // {function} [optional]
+  };*/
 
 var mongoose = require('mongoose'),
   NewRecords = mongoose.model('NewRecord'),
@@ -102,8 +112,8 @@ module.exports = {
         .pipe(csv())
         .on('headers', function (headerList) {
           let flag = false, count = 0, arrLength;
-              console.log('return to function')
-                const mongoimportexecstring = "mongoimport -d " + config.dbName + " -c newrecords --type csv --file " + inputPath + '/' + fileName + " --headerline";
+                const mongoimportexecstring = "mongoimport -d " + config.dbName + " -c newrecords --type csv --file " + inputPath + '/' + fileName + " --headerline  --host 172.17.0.1";
+                console.log('mongoimportexecstring',mongoimportexecstring)
                 shell.exec(mongoimportexecstring);
                 console.log('---------------------')
                 NewRecords.find({
@@ -114,27 +124,27 @@ module.exports = {
                       doc.categories = doc.categories_str.split('|');
                       doc.categories = doc.categories.map((r) => r.trim());
                       if (doc.categories[doc.categories.length - 1] === '') doc.categories.splice(doc.categories.length - 1, 1);
-                      // if (doc.address_city) {
-                      //   console.log('in if')
-                      //   var address = doc.address_city;
-                      //   if (doc.address_street_name)
-                      //       address += ' , ' + doc.address_street_name;
-                      //   if (doc.address_street_number)
-                      //       address += ' , ' + doc.address_street_number;
-                      //   convert(address).then(function (res) {
-                      //     console.log('rrrrrrrrrrrrrr',res)
-                      //      doc.location = res;
-                      //      var promise = doc.save();
-                      // promise.then(function (d) {
-                      //   console.log('saveeeeee')
-                      //   callback();
-                      // });
-                      //   }).catch(function (error) {
-                      //     console.log('eeeeeeeee',error)
-                      //       console.log('error', error)
-                      //   });
-                      // }
-                    //else
+                      if (doc.address_city) {
+                        console.log('in if')
+                        var address = doc.address_city;
+                        if (doc.address_street_name)
+                            address += ' , ' + doc.address_street_name;
+                        if (doc.address_street_number)
+                            address += ' , ' + doc.address_street_number;
+                        convert(address).then(function (res) {
+                          console.log('rrrrrrrrrrrrrr',res)
+                           doc.location = res;
+                           var promise = doc.save();
+                      promise.then(function (d) {
+                        console.log('saveeeeee')
+                        callback();
+                      });
+                        }).catch(function (error) {
+                          console.log('eeeeeeeee',error)
+                            console.log('error', error)
+                        });
+                      }
+                    else
                      {
                       var promise = doc.save();
                       promise.then(function (d) {
@@ -172,8 +182,8 @@ module.exports = {
                         };
                         emitter.on('finishReindex', function () {
                           console.log('in emit')
-                          shell.exec('mongodump -d ' + dbName + ' -c newrecords --out /tmp')
-                          shell.exec('mongorestore -d ' + dbName + ' -c records /tmp/' + dbName + '/newrecords.bson')
+                          shell.exec('mongodump -d ' + dbName + ' -c newrecords --out /tmp --host 172.17.0.1')
+                          shell.exec('mongorestore -d ' + dbName + ' -c records /tmp/' + dbName + '/newrecords.bson --host 172.17.0.1')
                           NewRecords.deleteMany({}, function (err, results) {
                             console.log('delete', results.result);
                             // fs.unlink(inputPath +'/'+fileName, (err) => {
