@@ -15,6 +15,7 @@ var express = require('express'),
   recordsCtrl = require('../controllers/records')(),
   requestsCtrl = require('../controllers/requests')(),
   categoriesCtrl = require('../controllers/categories')(),
+  landscapesCtrl = require('../controllers/landscapes'),
   authCtrl = require('../controllers/auth'),
   historyCtrl = require('../controllers/history'),
   emailsCtrl = require('../controllers/emails'),
@@ -86,6 +87,16 @@ router.post('/category', requireAuth, authCtrl.roleAuthorization('Admin'), categ
 router.route('/category/:categoryId')
   .put(requireAuth, authCtrl.roleAuthorization('Admin'), categoriesCtrl.update)
   .delete(requireAuth, authCtrl.roleAuthorization('Admin'), categoriesCtrl.delete)
+
+/*
+Landscapes functions
+*/
+router.route('/landscape')
+  .get(landscapesCtrl.all)
+  .post(requireAuth, authCtrl.roleAuthorization('Admin'), landscapesCtrl.create);
+router.route('/landscape/:landscapeId')
+  .get(landscapesCtrl.get)
+  .put(requireAuth, authCtrl.roleAuthorization('Admin'), landscapesCtrl.update);
 
 /*
 Authentication functions
