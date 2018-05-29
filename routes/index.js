@@ -163,14 +163,7 @@ router.get('/webhook/:service(yemot)', function(req, res, next) {
 
 router.post('/uploadFile', uploadCtrl.upload);
 router.post('/downloadFile', uploadCtrl.download);
-
-
-
-
-
-
-
-
+router.post('/uploadImage', uploadCtrl.uploadImage);
 
 
 module.exports = router;
