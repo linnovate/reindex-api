@@ -86,7 +86,7 @@ function updateMongoCategories(data) {
       }]
       Record.find(query, {
         _id: 1
-      }).exec(function (err, records) {
+      }).exec(function (err, records) {///yehudit
         if (err) return error(err);
         var ids = _.map(records, '_id');
         query = {
@@ -202,7 +202,13 @@ function record(req, res, next) {
     return res.status(500).send(err);
   });
 }
-
+function records(req, res, next) {
+  Record.find().then(function (data) {
+    return res.json(data);
+  }, function (err) {
+    return res.status(500).send(err);
+  });
+}
 function checkAddress(record) {
   return new Promise(function (resolve, reject) {
     var address;
@@ -370,6 +376,7 @@ module.exports = function RecordsActions(params) {
     connect2category: connect2category,
     findOne: findOne,
     record: record,
+    records:records,
     update: update,
     create: create,
     updateRecord: updateRecord,

@@ -3,7 +3,6 @@
 
 var ElasticProvider = require('../providers/elastic'),
   config = require('../config');
-
 ElasticProvider.connect(config.elastic.host, config.elastic.port);
 
 var express = require('express'),
@@ -24,6 +23,7 @@ var express = require('express'),
   uploadCtrl = require('../controllers/upload'),
   webhookCtrl = require('../controllers/webhooks'),
   auth = require('../auth');
+  require('reindex-landscape-api');
 
 router.get('/test', (req, res) => {
   res.send('ok');
@@ -58,6 +58,7 @@ router.put('/user/:id', function(req, res, next) {
 router.put('/records/connect2category', requireAuth, authCtrl.roleAuthorization('Admin'), recordsCtrl.connect2category);
 router.get('/records/:recordId', recordsCtrl.record, recordsCtrl.findOne);
 router.put('/record/:recordId',requireAuth, authCtrl.roleAuthorization('Admin'), recordsCtrl.updateRecord);
+router.get('/records', recordsCtrl.records);
 
 /*
  Requests functions
