@@ -15,6 +15,7 @@ var express = require('express'),
   recordsCtrl = require('../controllers/records')(),
   requestsCtrl = require('../controllers/requests')(),
   categoriesCtrl = require('../controllers/categories')(),
+  settingsCtrl = require('../controllers/settings'),
   authCtrl = require('../controllers/auth'),
   historyCtrl = require('../controllers/history'),
   emailsCtrl = require('../controllers/emails'),
@@ -88,6 +89,17 @@ router.route('/category/:categoryId')
   .delete(requireAuth, authCtrl.roleAuthorization('Admin'), categoriesCtrl.delete)
 
 /*
+Settings functions
+*/
+router.route('/settings')
+  .get(requireAuth, authCtrl.roleAuthorization('Admin'), settingsCtrl.all)
+  .post(requireAuth, authCtrl.roleAuthorization('Admin'), settingsCtrl.create);
+router.route('/settings/:key')
+  .get(settingsCtrl.get)
+  .put(requireAuth, authCtrl.roleAuthorization('Admin'), settingsCtrl.update);
+
+/*
+
 Authentication functions
 */
 router.post('/register', authCtrl.register);
