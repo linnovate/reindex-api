@@ -5,24 +5,21 @@
 var mongoose = require('mongoose'),
 Schema = mongoose.Schema;
 
-var LandscapeSchema = new Schema({  
+var Tooltip = new Schema({  
   record: {
     type: Schema.Types.ObjectId,
     ref: 'Record'
   },
   coords: {
-    type: String
+    type: Array
   },
   shape: {
     type: String,
     default: "rect"
-  },
-  title:{
-    type:String
   }
 }, {
-collection: 'landscape'
+collection: 'Tooltip'
 });
 
 
-mongoose.model('Landscape', LandscapeSchema);
+mongoose.model('Tooltip', TooltipSchema);
