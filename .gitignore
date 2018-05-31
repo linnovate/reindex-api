@@ -160,3 +160,7 @@ npm-shrinkwrap.json
 #sitemap files
 /sitemap/*
 !/sitemap/sitemap-base.js
+
+#upload directory
+files/*
+!files/.gitkeep

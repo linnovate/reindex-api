@@ -16,6 +16,7 @@ var express = require('express'),
   requestsCtrl = require('../controllers/requests')(),
   categoriesCtrl = require('../controllers/categories')(),
   landscapesCtrl = require('../controllers/landscapes'),
+  settingsCtrl = require('../controllers/settings'),
   authCtrl = require('../controllers/auth'),
   historyCtrl = require('../controllers/history'),
   emailsCtrl = require('../controllers/emails'),
@@ -99,6 +100,16 @@ router.route('/landscape/:landscapeId')
   .put(requireAuth, authCtrl.roleAuthorization('Admin'), landscapesCtrl.update);
 
 /*
+Settings functions
+*/
+router.route('/settings')
+  .get(requireAuth, authCtrl.roleAuthorization('Admin'), settingsCtrl.all)
+  .post(requireAuth, authCtrl.roleAuthorization('Admin'), settingsCtrl.create);
+router.route('/settings/:key')
+  .get(settingsCtrl.get)
+  .put(requireAuth, authCtrl.roleAuthorization('Admin'), settingsCtrl.update);
+
+/*
 Authentication functions
 */
 router.post('/register', authCtrl.register);
@@ -152,14 +163,7 @@ router.get('/webhook/:service(yemot)', function(req, res, next) {
 
 router.post('/uploadFile', uploadCtrl.upload);
 router.post('/downloadFile', uploadCtrl.download);
-
-
-
-
-
-
-
-
+router.post('/uploadImage', uploadCtrl.uploadImage);
 
 
 module.exports = router;
