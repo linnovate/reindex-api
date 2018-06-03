@@ -16,6 +16,7 @@ var express = require('express'),
   requestsCtrl = require('../controllers/requests')(),
   categoriesCtrl = require('../controllers/categories')(),
   landscapesCtrl = require('../controllers/landscapes'),
+  landscapeTooltipsCtrl = require('../controllers/landscapeTooltips'),
   settingsCtrl = require('../controllers/settings'),
   authCtrl = require('../controllers/auth'),
   historyCtrl = require('../controllers/history'),
@@ -92,13 +93,23 @@ router.route('/category/:categoryId')
 /*
 Landscapes functions
 */
-router.route('/landscape')
-  .get(landscapesCtrl.all)
-  .post(requireAuth, authCtrl.roleAuthorization('Admin'), landscapesCtrl.create);
-router.route('/landscape/:landscapeId')
-  .get(landscapesCtrl.get)
-  .put(requireAuth, authCtrl.roleAuthorization('Admin'), landscapesCtrl.update);
+// router.route('/landscape')
+//   .get(landscapesCtrl.all)
+//   .post(requireAuth, authCtrl.roleAuthorization('Admin'), landscapesCtrl.create);
+// router.route('/landscape/:landscapeId')
+//   .get(landscapesCtrl.get)
+//   .put(requireAuth, authCtrl.roleAuthorization('Admin'), landscapesCtrl.update);
 
+  /*
+LandscapeTooltips functions
+*/
+router.route('/landscape/tooltip')
+.get(landscapeTooltipsCtrl.all)
+.post(requireAuth, authCtrl.roleAuthorization('Admin'), landscapeTooltipsCtrl.create);
+router.route('/landscape/tooltip/:landscapeId')
+.get(landscapeTooltipsCtrl.get)
+.put(requireAuth, authCtrl.roleAuthorization('Admin'), landscapeTooltipsCtrl.update);
+  
 /*
 Settings functions
 */
