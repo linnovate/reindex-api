@@ -5,7 +5,7 @@
 var mongoose = require('mongoose'),
 Schema = mongoose.Schema;
 
-var Tooltip = new Schema({  
+var TooltipSchema = new Schema({  
   record: {
     type: Schema.Types.ObjectId,
     ref: 'Record'
