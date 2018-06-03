@@ -241,6 +241,7 @@ module.exports = {
     });
   },
   uploadImage(req, res) {
+    let url = Date.now();
     // create an incoming form object
     var form = new formidable.IncomingForm();
   
@@ -253,7 +254,8 @@ module.exports = {
     // every time a file has been uploaded successfully,
     // rename it to it's orignal name
     form.on('file', function(field, file) {
-      fs.rename(file.path, path.join(form.uploadDir, file.name));
+      fs.rename(file.path, path.join(form.uploadDir, url + file.name));
+      url = url + file.name;
     });
   
     // log any errors that occur
@@ -262,8 +264,8 @@ module.exports = {
     });
   
     // once all the files have been uploaded, send a response to the client
-    form.on('end', function() {
-      res.end('success');
+    form.on('end', function(file) {
+      res.end(url);
     });
   
     // parse the incoming request containing the form data
