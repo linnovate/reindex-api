@@ -39,6 +39,8 @@ var consolidate = require('consolidate');
 
 app.use(logger('dev'));
 
+app.use(express.static(path.join(__dirname, 'files')));
+
 app.set('superSecret', config.tokenSecret);
 
 app.use(bodyParser.json());
@@ -50,7 +52,6 @@ app.use(expressValidator());
 app.use(cookieParser());
 
 app.use(cors());
-
 // app.use(baseUrl + '/getResults', apiLimiter);
 
 app.use(baseUrl, routes);
@@ -62,7 +63,6 @@ app.use('/swagger', express.static('./swagger/swagger-ui'));
 app.engine('html', consolidate[config.templateEngine]);
 // set .html as the default extension
 app.set('view engine', 'html');
-
 
 if (app.get('env') === 'production') {
    app.use(Raven.errorHandler());
