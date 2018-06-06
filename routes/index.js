@@ -151,7 +151,7 @@ router.get('/webhook/:service(yemot)', function(req, res, next) {
   return webhookCtrl[req.params.service](req, res);
 });
 
-router.post('/uploadFile', uploadCtrl.upload);
+router.post('/uploadFile', uploadCtrl.upload, uploadCtrl.arrange, uploadCtrl.saveRecords);
 router.post('/downloadFile', uploadCtrl.download);
 router.post('/uploadImage', uploadCtrl.uploadImage);
 
