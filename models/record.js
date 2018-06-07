@@ -28,6 +28,7 @@ var RecordSchema = new Schema({
   phone: String,
   phone_2: String,
   phone_3: String,
+  logo: String,
   virtual_number: {
     created: Date,
     id: String,

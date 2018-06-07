@@ -78,11 +78,12 @@ var RecordRequestSchema = new Schema({
     is_deleted_checked: Boolean,
     reason_not_relevant: String,
     score_value: Number,
+    logo: String,
     score: {
       options: [String],
       value: Number
     }
-  },
+    },
   created: {
     type: Date,
     default: Date.now()

@@ -18,7 +18,7 @@ var TooltipSchema = new Schema({
     default: "rect"
   }
 }, {
-collection: 'Tooltip'
+collection: 'tooltips'
 });
 
 

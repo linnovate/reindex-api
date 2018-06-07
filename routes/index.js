@@ -108,8 +108,9 @@ router.route('/landscape/tooltip')
 .post(requireAuth, authCtrl.roleAuthorization('Admin'), landscapeTooltipsCtrl.create);
 router.route('/landscape/tooltip/:landscapeId')
 .get(landscapeTooltipsCtrl.get)
-.put(requireAuth, authCtrl.roleAuthorization('Admin'), landscapeTooltipsCtrl.update);
-  
+.put(requireAuth, authCtrl.roleAuthorization('Admin'), landscapeTooltipsCtrl.update)
+.delete(requireAuth, authCtrl.roleAuthorization('Admin'), landscapeTooltipsCtrl.delete);
+
 /*
 Settings functions
 */

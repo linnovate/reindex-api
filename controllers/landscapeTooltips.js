@@ -8,7 +8,7 @@ var mongoose = require('mongoose'),
 module.exports = {
   all: function(req, res, next) {
 
-    Tooltips.find().exec((err, tooltips) => {
+    Tooltips.find().populate('record','business_name business_description').exec((err, tooltips) => {
         if (err) {
             return next(err);
         }
@@ -49,6 +49,17 @@ module.exports = {
   },
   update: function(req, res,next) {
     Tooltips.findOneAndUpdate({_id: req.params.tooltipId}, { $set: { coords: '4545,889,7978,544' }}, ((err, tooltips)=> {
+        if (err) {
+            return next(err);
+        }
+        res.status(200).json({
+            tooltips: tooltips
+            });
+        })
+    );
+  },
+  delete: function(req, res,next) {
+    Tooltips.remove({_id: req.params.tooltipId}, ((err, tooltips)=> {
         if (err) {
             return next(err);
         }
