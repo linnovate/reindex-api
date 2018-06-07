@@ -33,12 +33,13 @@ exports.updateByQuery = function (data) {
 
 exports.index = function (index, type, id, data, parent) {
 
-  console.log('******** IN ELASTIC.CREATE ***********', options);
   var options = {
     index: index,
     type: type,
     body: data,
   };
+
+  console.log('******** IN ELASTIC.CREATE ***********', options);
 
   if (id) options.id = id;
   if (parent) options.parent = parent;
