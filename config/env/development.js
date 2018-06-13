@@ -31,7 +31,7 @@ module.exports = {
   },
   tokenSecret: 'reindex',
   recaptcha: {
-    secret: '6LfNoRsUAAAAAG3VGlDXwEq0PS_ia5_TLPWUbPBQ'
+    secret: 'recaptcha-key'
   },
   email: {
     service: 'gmail',
@@ -57,7 +57,7 @@ module.exports = {
 
     // Optional depending on the providers
     httpAdapter: 'https', // Default
-    apiKey: 'AIzaSyD7XnBe82IfEqcZkbScrVfzHZvL8czP9v0', // for Mapquest, OpenCage, Google Premier
+    apiKey: 'api-key', // for Mapquest, OpenCage, Google Premier
     formatter: null         // 'gpx', 'string', ...
   },
 };
