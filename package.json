@@ -1,5 +1,5 @@
 {
-  "name": "402",
+  "name": "reindex-api",
   "version": "0.0.1",
   "description": "",
   "homepage": "",
@@ -18,7 +18,7 @@
   "keywords": [],
   "repository": {
     "type": "git",
-    "url": "/402"
+    "url": "https://github.com/linnovate/reindex-api.git"
   },
   "license": "Apache-2.0",
   "engines": {
