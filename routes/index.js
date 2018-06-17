@@ -26,7 +26,6 @@ var express = require('express'),
   uploadCtrl = require('../controllers/upload'),
   webhookCtrl = require('../controllers/webhooks'),
   auth = require('../auth');
-  require('reindex-landscape-api');
 
 router.get('/test', (req, res) => {
   res.send('ok');
