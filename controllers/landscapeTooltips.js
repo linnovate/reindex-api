@@ -6,9 +6,8 @@ var mongoose = require('mongoose'),
   Tooltips = mongoose.model('Tooltip');
 
 module.exports = {
-  all: function(req, res, next) {
-
-    Tooltips.find().populate('record','business_name business_description').exec((err, tooltips) => {
+  all: function(req, res, next) {       
+    Tooltips.find().populate('record','business_name business_description founder').exec((err, tooltips) => {
         if (err) {
             return next(err);
         }
@@ -58,7 +57,7 @@ module.exports = {
         })
     );
   },
-  delete: function(req, res,next) {
+  delete: function(req, res,next) { 
     Tooltips.remove({_id: req.params.tooltipId}, ((err, tooltips)=> {
         if (err) {
             return next(err);
