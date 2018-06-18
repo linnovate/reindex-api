@@ -1,16 +1,16 @@
 #!/usr/bin/env node
 // var debug = require('debug')('mean-network-api');
-var app = require('../app');
 var config = require('../config');
 var mongoose = require('mongoose');
-
-require('../providers/rabbitmq');
 
 //connect to mongodb
 console.log('connect to mongodb ', config.db);
 mongoose.connect(config.db);
+var app = require('../app')(mongoose);
 
 require('../config/application')(app);
+
+require('../providers/rabbitmq');
 
 var port = app.get('port');
 

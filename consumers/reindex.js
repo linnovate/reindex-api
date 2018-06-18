@@ -15,7 +15,10 @@ function handleMessage(message, error, done) {
     message.query = {};
     var bulkArr = [];
     find(message, function(err, docs) {
-        if (err) return console.log('===== REINDEX ERR ================', err);
+        if (err) {
+            console.log('===== REINDEX ERR ================', err);            
+            return;
+        }
         docs.forEach(function(doc) {
             
             doc.created = new Date();

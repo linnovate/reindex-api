@@ -59,4 +59,8 @@ module.exports = {
     apiKey: 'api-key', // for Mapquest, OpenCage, Google Premier
     formatter: null         // 'gpx', 'string', ...
   },
+  raven: {
+    key: 'raven-key',
+    project: 'raven-project'
+  }
 };

@@ -2,17 +2,17 @@
 
 var ElasticProvider = require('../providers/elastic');
 var _client = ElasticProvider.getClient(),
-  config = require('../config'),
-  recordsIndex = config.records.index,
-  recordsType = config.records.type,
-  Constants = require('../config/constants'),
-  categoriesCtrl = require('./categories')(),
-  categoriesAlias = require('../config/categories.json'),
-  ElasticCtrl = require('./elastic'),
-  hierarchyCategoriesIndex = config.hierarchyCategories.index,
-  categoriesFilters = ['kashrut'],
-  async = require('async'),
-  _ = require('lodash');
+config = require('../config'),
+recordsIndex = config.records.index,
+recordsType = config.records.type,
+Constants = require('../config/constants'),
+categoriesCtrl = require('./categories')(),
+categoriesAlias = require('../config/categories.json'),
+ElasticCtrl = require('./elastic'),
+hierarchyCategoriesIndex = config.hierarchyCategories.index,
+categoriesFilters = config.categoriesFilters,
+async = require('async'),
+_ = require('lodash');
 
 module.exports.getDataByTerm = function (req, res, next) {
   var body = {
@@ -30,12 +30,12 @@ module.exports.getDataByTerm = function (req, res, next) {
       }
     } */
   };
-
+  
   var search = {};
   if (req.body.type) search.type = req.body.type;
   search.index = req.body.index || req.query.index || hierarchyCategoriesIndex;
   search.body = body;
-
+  
   _client.search(search, function (error, response, status) {
     if (error) {
       console.log("search error: " + error);
@@ -103,9 +103,9 @@ var searchQuery = {
     data.body.sort.push({
       "_geo_distance": {
         "location": { 
-          "lat" : lat,			
-          "lon": lon
-         },
+          "calculated.lat" : lat,			
+          "calculated.lon": lon
+        },
         "order": "asc",
         "unit": "km",
         "distance_type": "plane"
@@ -115,7 +115,7 @@ var searchQuery = {
       _score: {
         order: 'desc'
       }
-  })
+    })
     return data.body;
   },
   city: function (data) {
@@ -141,11 +141,11 @@ var searchQuery = {
     //       order: 'desc'
     //     },
     //   })
-      data.body.sort.push({
-          _score: {
-            order: 'desc'
-          }
-      })
+    data.body.sort.push({
+      _score: {
+        order: 'desc'
+      }
+    })
     return data.body;
   },
   phone: function (data) {
@@ -180,62 +180,62 @@ var searchQuery = {
     });
     data.body.query.bool.should.push({
       "regexp":{
-          ["full_name.notanalyzed"]: {
-              "value":data.valuesString+".*?+",
-              "flags" : "EMPTY"
-          }
+        ["full_name.notanalyzed"]: {
+          "value":data.valuesString+".*?+",
+          "flags" : "EMPTY"
+        }
       }
     }) 
     return data.body;
   },
   businesses: function (data) {
-    data.body.query.bool.should.push({
-      match: {
-        ['categories']: {
-          query: data.valuesString,
-          operator: 'and',
-          //fuzziness: '1' // with it - nofesh gives nefesh
-        }
-      }
-    });
-    data.body.query.bool.should.push({
-      match: {
-        ['tags.raw']: {
-          query: data.valuesString,
-          operator: 'and',
-        }
-      }
-    });
-    data.valuesString = data.valuesString.replace(/['"]/gi, '');
-      data.body.query.bool.should.push({
-        "regexp":{
-            ["business_name.notanalyzed"]: {
-                "value":data.valuesString+".*?+",
-                "flags" : "EMPTY"
-            }
-        }
-      }) 
-    
-
-    if (!data.onlyCategoriesFilter) {
-     data.body.query.bool.should.push({
-        match: {
-          ['business_name.plain']: {
-            query: data.valuesString.replace(/['"]/gi, ''),
-            operator: 'and',
-            //fuzziness: '1' // with it - nofesh gives nefesh
-          }
-        }
-      });
+    for (var i in config.searchQuery.businesses.default.match) {
       data.body.query.bool.should.push({
         match: {
-          ['business_name']: {
+          [config.searchQuery.businesses.default.match[i]]: {
             query: data.valuesString,
             operator: 'and',
             //fuzziness: '1' // with it - nofesh gives nefesh
           }
         }
       });
+    }
+    data.valuesString = data.valuesString.replace(/['"]/gi, '');
+    for (var i in config.searchQuery.businesses.default.regexp) {
+      data.body.query.bool.should.push({
+        "regexp":{
+          [config.searchQuery.businesses.default.regexp[i]+".notanalyzed"]: {
+            "value":data.valuesString+".*?+",
+            "flags" : "EMPTY"
+          }
+        }
+      }) 
+    }
+    
+    
+    if (!data.onlyCategoriesFilter) {
+      for (var i in config.searchQuery.businesses.notOnlyCategoriesFilter.plain) {
+        data.body.query.bool.should.push({
+          match: {
+            [config.searchQuery.businesses.notOnlyCategoriesFilter.plain[i]+'.plain']: {
+              query: data.valuesString.replace(/['"]/gi, ''),
+              operator: 'and',
+              //fuzziness: '1' // with it - nofesh gives nefesh
+            }
+          }
+        });
+      }
+      for (var i in config.searchQuery.businesses.notOnlyCategoriesFilter.plain) {
+        data.body.query.bool.should.push({
+          match: {
+            [config.searchQuery.businesses.notOnlyCategoriesFilter.match[i]]: {
+              query: data.valuesString,
+              operator: 'and',
+              //fuzziness: '1' // with it - nofesh gives nefesh
+            }
+          }
+        });
+      }
     }
     var categoriesBool = {
       bool: {
@@ -264,10 +264,10 @@ var searchQuery = {
         order: order
       }
     } : {
-        'business_name.notanalyzed': {
-          order: order
-        }
+      'raw.title.notanalyzed': {
+        order: order
       }
+    }
     return data.body;
   }
 };
@@ -295,26 +295,26 @@ var searchResultsQuery = exports.searchResultsQuery = function (value, query, _b
   _body = _body || {};
   return new Promise(function (resolve, reject) {
     var limit = query.limit || 50,
-      offset = query.offset || 1,
-      from = limit * (offset - 1),
-      data = {},
-      search = {
-        index: recordsIndex,
-        type: recordsType
+    offset = query.offset || 1,
+    from = limit * (offset - 1),
+    data = {},
+    search = {
+      index: recordsIndex,
+      type: recordsType
+    },
+    body = {
+      size: limit,
+      from: from,
+      query: {
+        bool: {
+          should: [],
+          must: [],
+          must_not: [],
+          minimum_should_match: 1
+        }
       },
-      body = {
-        size: limit,
-        from: from,
-        query: {
-          bool: {
-            should: [],
-            must: [],
-            must_not: [],
-            minimum_should_match: 1
-          }
-        },
-        track_scores: true,
-        sort: [
+      track_scores: true,
+      sort: [
         //   {
         //   _script: {
         //     type: 'number',
@@ -330,7 +330,7 @@ var searchResultsQuery = exports.searchResultsQuery = function (value, query, _b
         //   }
         // }
       ]
-      };
+    };
 
     data.types = query.type.split(',');
     data.types = data.types.map(function (t) {
@@ -351,7 +351,7 @@ var searchResultsQuery = exports.searchResultsQuery = function (value, query, _b
               _.forEach(e[key], function(value) {
                 data.values[i] = value;
               });
-             }
+            }
           })
         });
       }
@@ -364,16 +364,16 @@ var searchResultsQuery = exports.searchResultsQuery = function (value, query, _b
       data.lat = _body.lat;
       data.lon = _body.lon;
       data.onlyCategoriesFilter = _body.onlyCategoriesFilter;
-   
-       if (data.exceptIds) data.body = searchQuery['exceptIds'](data);
-       if (data.lat && data.lon)
-        data.body = searchQuery['GPS'](data);
-       else if(data.onlyCategoriesFilter) data.body = searchQuery['score'](data);
-       if (data.ids) data.body = searchQuery['ids'](data);
-       else {
+      
+      if (data.exceptIds) data.body = searchQuery['exceptIds'](data);
+      if (data.lat && data.lon)
+      data.body = searchQuery['GPS'](data);
+      else if(data.onlyCategoriesFilter) data.body = searchQuery['score'](data);
+      if (data.ids) data.body = searchQuery['ids'](data);
+      else {
         if (data.values && data.values.length) data.body = searchQuery[data.type](data);
-         data.body = searchQuery['phone'](data);
-         data.body = searchQuery['is_deleted'](data);
+        data.body = searchQuery['phone'](data);
+        data.body = searchQuery['is_deleted'](data);
         for (var index in query)
           if (searchQuery[index])data.body = searchQuery[index](data);
       }
@@ -418,21 +418,21 @@ var getResults = module.exports.getResults = function (value, query, body) {
       total: 0
     });
     searchResultsQuery(value, query, body)
-      .then(_getDataResults)
-      .then(function (data) {
-        resolve(data);
-        ElasticCtrl.index('history', 'search', null, searchData(query, value, data)).then().catch();
-      }, function (error) {
-        console.error(error);
-        reject(error);
-      });
+    .then(_getDataResults)
+    .then(function (data) {
+      resolve(data);
+      ElasticCtrl.index('history', 'search', null, searchData(query, value, data)).then().catch();
+    }, function (error) {
+      console.error(error);
+      reject(error);
+    });
   });
 }
 
 function searchData(query, value, resData) {
   var data = {};
   for (var index in query)
-    data[index] = query[index];
+  data[index] = query[index];
   data.value = value.toString();
   data.created = new Date();
   data.totalCount = resData.total;
@@ -451,7 +451,7 @@ module.exports.getSubCategories = function (req, res) {
       }
     }
   };
-
+  
   if (req.query.type) search.type = req.query.type;
   search.index = req.query.index;
   search.body = body;
@@ -466,16 +466,16 @@ module.exports.getSubCategories = function (req, res) {
       };
       categoriesCtrl.getAllParents(req.query.routing, [], function (err, _categories) {
         if (!err)
-         for (var index in config.hierarchyFilters) {
-           if (_categories.indexOf(config.hierarchyFilters[index].content) > -1)
-             data.filters[index] = true;
-           else data.filters[index] = false;
-         }
+        for (var index in config.hierarchyFilters) {
+          if (_categories.indexOf(config.hierarchyFilters[index].content) > -1)
+          data.filters[index] = true;
+          else data.filters[index] = false;
+        }
         res.send(data);
       });
     }
   });
-
+  
 }
 
 module.exports.checkData = function (req, res) {
@@ -483,16 +483,16 @@ module.exports.checkData = function (req, res) {
     index: recordsIndex,
     type: recordsType,
     body: {
-       query: {
-           "match_all": {}
-       }
+      query: {
+        "match_all": {}
+      }
     }
   }, function (error, response) {
-  if (error)
+    if (error)
     return res.send(false);
-  if (!response.hits.hits.length)
+    if (!response.hits.hits.length)
     res.send(false);
-  else res.send(true);
+    else res.send(true);
   });
 }
 

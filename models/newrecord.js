@@ -9,6 +9,8 @@ var mongoose = require('mongoose'),
   config = require('../config');
 
 var NewRecordSchema = new Schema({
+  raw: Map,
+  calculated: Map,
   wp_num: Number,
   business_name: String,
   first_name: String,

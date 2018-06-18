@@ -27,15 +27,22 @@ var queues = [{
 
 function init() {
   connectRabbitMQ()
-    .then(function (err) {
-      console.log('connectRabbitMQ Err:', err);
+  .then(function (err) {
+    console.log('connectRabbitMQ Err:', err);
 
-      queues.forEach(function (queue, index) {
-        queue.requires.forEach(function (r) {
-          require(r)(rabbit, queue);
-        });
+    queues.forEach(function (queue, index) {
+      queue.requires.forEach(function (r) {
+        require(r)(rabbit, queue);
       });
     });
+    for (var i = 0; config.queues && i < config.queues.length; i++) {
+      var Ctrl = require(config.queues[i].name);
+      var ctrl = new Ctrl();
+      if (ctrl.consumer) {
+        ctrl.consumer(rabbit, { name: config.queues[i].name, maxUnackMessages: config.queues[i].maxUnackMessages || 1 });
+      }
+    }
+  });
 }
 
 init();

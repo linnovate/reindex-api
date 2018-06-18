@@ -10,6 +10,8 @@ var mongoose = require('mongoose'),
   Constants = require('../config/constants');
 
 var RecordSchema = new Schema({
+  raw: Map,
+  calculated: Map,
   wp_num: Number,
   business_name: String,
   first_name: String,
