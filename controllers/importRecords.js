@@ -19,11 +19,9 @@ var mongoose = require('mongoose'),
   csv = require('csv-parser'),
   fs = require('fs'),
   shell = require('shelljs'),
-  producer = require('../producers'),
   path = require("path"),
   config = require('../config'),
   inputPath = path.resolve(config.root, 'files'),
-  emitter = require('../services/emitter'),
   parse = require('co-busboy'),
   formidable = require('formidable');
 
@@ -39,12 +37,14 @@ var dbName = config.dbName;
 
 
 function Upload() {
-
+  this.emitter = require('../services/emitter');
+  this.producer = require('../producers');
+  this.config = config;
 }
 
 Upload.prototype.convert = function(address) {
   return new Promise(function (resolve, reject) {
-    // return resolve(null);
+    return resolve(null);
     if (!address) return resolve(null);
     geocoder.geocode({ address }, function (err, data) {
         if (err){
@@ -143,6 +143,7 @@ Upload.prototype.saveRecords = function(req,res,next) {
     'collection': 'newrecords'
   }
   var limit = 1000;
+  var self = this;
   NewRecords.count({}, function (err, count) {
     const recordsCount = count;
     console.log('count new records', count)
@@ -161,14 +162,14 @@ Upload.prototype.saveRecords = function(req,res,next) {
         last: i + currLimit == recordsCount
       };
       console.log('REINDEX CREATE SEARCH MONGO JOB ', params.collection, data.offset, data.limit);
-      producer.createJob('reindex-data', data);
+      self.producer.createJob('reindex-data', data);
     };
     next();
   });
 }
 
 Upload.prototype.end = function(req, res, next) {
-  emitter.once('finishReindex', function () {
+  this.emitter.once('finishReindex', function () {
     console.log('in emit')
     shell.exec('mongodump -d ' + dbName + ' -c newrecords --out /tmp --host 172.17.0.1')
     shell.exec('mongorestore -d ' + dbName + ' -c records /tmp/' + dbName + '/newrecords.bson --host 172.17.0.1')
