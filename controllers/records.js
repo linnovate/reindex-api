@@ -86,7 +86,7 @@ function updateMongoCategories(data) {
       }]
       Record.find(query, {
         _id: 1
-      }).exec(function (err, records) {///yehudit
+      }).exec(function (err, records) {
         if (err) return error(err);
         var ids = _.map(records, '_id');
         query = {
@@ -202,8 +202,8 @@ function record(req, res, next) {
     return res.status(500).send(err);
   });
 }
-function records(req, res, next) {
-  Record.find().then(function (data) {
+function records(req, res, next) {//yehudit
+  Record.find().select('business_name').then(function (data) {
     return res.json(data);
   }, function (err) {
     return res.status(500).send(err);

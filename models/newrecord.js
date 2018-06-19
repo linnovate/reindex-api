@@ -41,6 +41,8 @@ var NewRecordSchema = new Schema({
   tags: String,
   categories: [String],
   categories_str: String,
+  logo: String,
+  founder:String,
   created: {
     type: Date,
     default: Date.now()

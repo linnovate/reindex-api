@@ -39,11 +39,6 @@ module.exports = {
       pass: ''
     }
   },
-  hierarchyFilters: {
-    kashrut: {
-      content: 'אוכל'
-    }
-  },
   paycall: {
     uname: '',
     uid: '',

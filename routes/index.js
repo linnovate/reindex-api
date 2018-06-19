@@ -26,12 +26,15 @@ module.exports = function(db) {
     uploadCtrl = require('../controllers/upload'),  
     ImportRecordsCtrl = require('../controllers/importRecords'),
     webhookCtrl = require('../controllers/webhooks'),
-    auth = require('../auth');
-
-    if (config.inheritFunctions.importRecords) ImportRecordsCtrl = require(config.inheritFunctions.importRecords);
-    var importRecordsCtrl = new ImportRecordsCtrl(db);
+    auth = require('../auth'),
+    landscapesCtrl = require('../controllers/landscapes'),
+    landscapeTooltipsCtrl = require('../controllers/landscapeTooltips');
+  
+  if (config.inheritFunctions.importRecords) ImportRecordsCtrl = require(config.inheritFunctions.importRecords);
+  var importRecordsCtrl = new ImportRecordsCtrl(db);
     
-    if (importRecordsCtrl.scheduler) importRecordsCtrl.scheduler(db);
+  if (importRecordsCtrl.scheduler) importRecordsCtrl.scheduler(db);
+
   router.get('/test', (req, res) => {
     res.send('ok');
   });
@@ -104,6 +107,27 @@ module.exports = function(db) {
     .get(settingsCtrl.get)
     .put(requireAuth, authCtrl.roleAuthorization('Admin'), settingsCtrl.update);
     
+  /*
+  Landscapes functions
+  */
+  // router.route('/landscape')
+  //   .get(landscapesCtrl.all)
+  //   .post(requireAuth, authCtrl.roleAuthorization('Admin'), landscapesCtrl.create);
+  // router.route('/landscape/:landscapeId')
+  //   .get(landscapesCtrl.get)
+  //   .put(requireAuth, authCtrl.roleAuthorization('Admin'), landscapesCtrl.update);
+
+  /*
+  LandscapeTooltips functions
+  */
+  router.route('/landscape/tooltip')
+    .get(landscapeTooltipsCtrl.all)
+    .post(requireAuth, authCtrl.roleAuthorization('Admin'), landscapeTooltipsCtrl.create);
+  router.route('/landscape/tooltip/:tooltipId')
+    .get(landscapeTooltipsCtrl.get)
+    .put(requireAuth, authCtrl.roleAuthorization('Admin'), landscapeTooltipsCtrl.update)
+    .delete(requireAuth, authCtrl.roleAuthorization('Admin'), landscapeTooltipsCtrl.delete);
+
   /*
   Authentication functions
   */
