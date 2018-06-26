@@ -12,6 +12,8 @@ require('../config/application')(app);
 
 require('../providers/rabbitmq');
 
+require('../providers/schedules')(mongoose);
+
 var port = app.get('port');
 
 var server = app.listen(port);

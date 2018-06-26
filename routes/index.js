@@ -33,8 +33,6 @@ module.exports = function(db) {
   if (config.inheritFunctions.importRecords) ImportRecordsCtrl = require(config.inheritFunctions.importRecords);
   var importRecordsCtrl = new ImportRecordsCtrl(db);
     
-  if (importRecordsCtrl.scheduler) importRecordsCtrl.scheduler(db);
-
   router.get('/test', (req, res) => {
     res.send('ok');
   });
