@@ -1,4 +1,4 @@
-curl -XPUT 172.17.0.1:9200/reindex-records -d '{
+curl -XPUT $ELASTIC_HOST:9200/$RECORDS_INDEX -d '{
   "mappings": {
     "record": {
       "_timestamp": {

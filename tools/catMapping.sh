@@ -1,4 +1,4 @@
-curl -XPUT 172.17.0.1:9200/reindex-categories -d ' {
+curl -XPUT $ELASTIC_HOST:9200/$HCATEGORIES_INDEX -d ' {
     "mappings": {
         "A": {
              "_parent": {
