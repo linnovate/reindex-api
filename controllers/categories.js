@@ -20,7 +20,6 @@ function get(req, res, next) {
       match_all: {}
     }
   };
-console.log('rrrr',req.query.type,req.query.index)
   search.type = req.query.type;
   search.index = req.query.index || categoriesIndex;
   search.body = body;

@@ -34,7 +34,7 @@ var geocoder = NodeGeocoder(options);
 
 var fileName;
 var dbName = config.dbName;
-
+var dbHost = config.dbHost;
 
 function Upload() {
   this.emitter = require('../services/emitter');
@@ -81,7 +81,7 @@ Upload.prototype.upload = function(req,res,next) {
       .pipe(csv())
       .on('headers', function (headerList) {
         let flag = false, count = 0, arrLength;
-        const mongoimportexecstring = "mongoimport -d " + dbName + " -c newrecords --type csv --file " + inputPath + '/' + fileName + " --headerline  --host 172.17.0.1";
+        const mongoimportexecstring = "mongoimport -d " + dbName + " -c newrecords --type csv --file " + inputPath + '/' + fileName + " --headerline  --host " + dbHost;
         console.log('mongoimportexecstring',mongoimportexecstring)
         shell.exec(mongoimportexecstring, function(err, result){
           next();

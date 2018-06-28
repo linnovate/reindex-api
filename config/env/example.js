@@ -1,7 +1,9 @@
 'use strict';
+
 module.exports = {
-  db: 'mongodb://' + (process.env.DB_PORT_27017_TCP_ADDR || '172.17.0.1') + '/reindex-dev',
-  dbName: 'reindex-dev',
+  db: 'mongodb://' + (process.env.DB_PORT_27017_TCP_ADDR || '172.17.0.1') + '/' +  process.env.DB_NAME || 'reindex-dev',
+  dbName: process.env.DB_NAME || 'reindex-dev',
+  dbHost: process.env.DB_PORT_27017_TCP_ADDR || '172.17.0.1',
   host: 'https://172.17.0.1:3005',
   google: {
     client_id: 'client_id',
@@ -9,25 +11,25 @@ module.exports = {
     redirect_uri: 'redirect_uri',
   },
   elastic: {
-    host: '172.17.0.1',
+    host: process.env.ELASTIC_HOST || '172.17.0.1',
     port: 9200
   },
   records: {
-    index: 'reindex-records',
-    type: 'record'
+    index: process.env.RECORDS_INDEX || 'reindex-records',
+    type: process.env.RECORDS_TYPE || 'record'
   },
   hierarchyCategories: {
-    index: 'reindex-categories'
+    index: process.env.HCATEGORIES_INDEX || 'reindex-categories'
   },
   categories: {
-    index: 'reindex-cities'
+    index: process.env.CATEGORIES_INDEX || 'reindex-cities'
   },
   history: {
-    index: 'history',
-    type: 'search'
+    index: process.env.HISTORY_INDEX || 'history',
+    type: process.env.HISTORY_TYPE || 'search'
   },
   rabbitmq: {
-    host: '172.17.0.1'
+    host: process.env.RABBITMQ_HOST || '172.17.0.1'
   },
   tokenSecret: 'reindex',
   recaptcha: {
