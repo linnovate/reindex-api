@@ -1,6 +1,9 @@
 curl -XPUT 172.17.0.1:9200/reindex-records -d '{
   "mappings": {
     "record": {
+      "_timestamp": {
+          "enabled": "true"
+      },
       "dynamic_templates": [{
         "phone": {
           "match": "phone*",
@@ -133,6 +136,12 @@ curl -XPUT 172.17.0.1:9200/reindex-records -d '{
         },
         "score_value": {
           "type": "double"
+        },
+        "raw": {
+          "type": "object"
+        },
+        "calculated": {
+          "type": "object"
         }
       }
     }

@@ -56,6 +56,13 @@ module.exports = function(db) {
     app.use(cors());
     // app.use(baseUrl + '/getResults', apiLimiter);
 
+
+    for (var i = 0; i < config.routes.length; i++) {
+        var R = require(config.routes[i].module);
+        var r = new R().routes(db);
+        app.use(baseUrl + '/' + config.routes[i].name, r);
+    }
+
     app.use(baseUrl, routes);
     app.use('/', staticRoutes);
 

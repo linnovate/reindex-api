@@ -3,6 +3,7 @@
  */
 
 var mongoose = require('mongoose'),
+  timestamps = require("mongoose-times"),
   Schema = mongoose.Schema,
   _ = require('lodash'),
   Elastic = require('../controllers/elastic'),
@@ -94,6 +95,8 @@ RecordSchema.post('save', function (doc) {
   delete _doc._id;
   Elastic.index(config.records.index, config.records.type, doc._id.toString(), _doc).then(function (data) {}, function (error) {});
 });
+
+RecordSchema.plugin(timestamps);
 
 mongoose.model('Record', RecordSchema);
 

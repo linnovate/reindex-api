@@ -26,18 +26,25 @@ module.exports = {
 		}
 	  }
 	},
-	// queues: [
-	//   {
-	//     name: 'reindex-import-module',
-	//     maxUnackMessages: 5
-	//   }
-	// ],	
-	// schedules: [
-	//   {
-	//     name: 'reindex-import-module'
-	//   }
-	// ],
-	// inheritFunctions: {
-	//   importRecords: 'reindex-import-module',
-	// },
+	queues: [
+	  // {
+	  //   name: 'reindex-module',
+	  //   maxUnackMessages: 5
+	  // }
+	],	
+	schedules: [
+	  // {
+		// 	name: 'reindex-module',
+		// 	cron: '0 0 0 * * * *'
+	  // }
+	],
+	routes: [
+		// {
+		// 	module: 'reindex-module',
+		// 	name: 'module'
+		// }
+	],
+	inheritFunctions: {
+	  // importRecords: 'reindex-import-module',
+	},
 };

@@ -44,7 +44,6 @@ function Upload() {
 
 Upload.prototype.convert = function(address) {
   return new Promise(function (resolve, reject) {
-    return resolve(null);
     if (!address) return resolve(null);
     geocoder.geocode({ address }, function (err, data) {
         if (err){

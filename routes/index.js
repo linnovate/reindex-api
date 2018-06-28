@@ -30,7 +30,7 @@ module.exports = function(db) {
     landscapesCtrl = require('../controllers/landscapes'),
     landscapeTooltipsCtrl = require('../controllers/landscapeTooltips');
   
-  if (config.inheritFunctions.importRecords) ImportRecordsCtrl = require(config.inheritFunctions.importRecords);
+  if (config.inheritFunctions && config.inheritFunctions.importRecords) ImportRecordsCtrl = require(config.inheritFunctions.importRecords).controller;
   var importRecordsCtrl = new ImportRecordsCtrl(db);
     
   router.get('/test', (req, res) => {
